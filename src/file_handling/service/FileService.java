@@ -54,7 +54,15 @@ public class FileService {
         }
 
         if (action.equalsIgnoreCase(UserActions.GO_IN_FOLDER.getValue())) {
-        	moveInto();
+            moveInto();
+        }
+
+        if (action.equalsIgnoreCase(UserActions.READ_TXT_FILE.getValue())) {
+            readTxtFile();
+        }
+
+        if (action.equalsIgnoreCase(UserActions.COPY_FILE.getValue())) {
+            copyFile();
         }
 
         if (action.equalsIgnoreCase(UserActions.BACK_FOLDER.getValue())) {
@@ -77,13 +85,15 @@ public class FileService {
             ConsoleManager.getInstance().printLine();
             ConsoleManager.getInstance().consoleLineBreak();
             ConsoleManager.getInstance().printToConsole("What do you want to do ? ", true);
-            ConsoleManager.getInstance().printToConsole("1 - List files ", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.LIST_FILES.getValue() + " - List files ", true);
             ConsoleManager.getInstance().printToConsole(UserActions.CREATE_FILE.getValue()+" - Create a file", true);
-            ConsoleManager.getInstance().printToConsole("3 - Create a folder", true);
-            ConsoleManager.getInstance().printToConsole("4 - Edit a file", true);
-            ConsoleManager.getInstance().printToConsole("5 - Delete a file", true);
-            ConsoleManager.getInstance().printToConsole("6 - Go into folder", true);
-            ConsoleManager.getInstance().printToConsole("7 - Move back one folder", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.CREATE_FOLDER.getValue() + " - Create a folder", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.EDIT_FILE.getValue() + " - Edit a file", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.DELETE_FILE.getValue() + " - Delete a file", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.GO_IN_FOLDER.getValue() + " - Go into folder", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.BACK_FOLDER.getValue() + " - Move back one folder", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.READ_TXT_FILE.getValue() + " - Read a txt file", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.COPY_FILE.getValue() + " - Copy a file", true);
             ConsoleManager.getInstance().printToConsole(UserActions.EXIT.getValue() + " - Exit", true);
 
             // ask user answer
@@ -224,5 +234,37 @@ public class FileService {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public void readTxtFile() {
+        printActionTitle("Read txt file");
+
+        // list files for user to choose
+        int nbFiles = listFiles();
+
+        int answer;
+
+        do {
+            ConsoleManager.getInstance().printToConsole("Which file do you want to read ? ", true);
+            answer = ConsoleManager.getInstance().readUserInputInteger();
+        } while(answer < 0 || answer >= nbFiles);
+
+        fileManager.readTxtFile(answer);
+    }
+
+    public void copyFile() {
+        printActionTitle("Copy file");
+
+        // list files for user to choose
+        int nbFiles = listFiles();
+
+        int answer;
+
+        do {
+            ConsoleManager.getInstance().printToConsole("Which file do you want to read ? ", true);
+            answer = ConsoleManager.getInstance().readUserInputInteger();
+        } while(answer < 0 || answer >= nbFiles);
+
+        fileManager.copyFile(answer);
     }
 }
