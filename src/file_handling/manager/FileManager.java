@@ -82,15 +82,14 @@ public class FileManager {
 	 * Go back one folder from the current path
 	 */
 	public void backOneFolder() {
-
-
 		List<String> paths = Arrays.asList(currentPath.split(Pattern.quote("\\")));
 
-		paths.remove(paths.size() - 1);
+		if(paths.size() > 0) {
+			ConsoleManager.getInstance().printToConsole(""+paths.size(), true);
+			paths = paths.subList(0, paths.size() - 1);
 
-		//paths = paths.subList(0, paths.size() - 1);
-
-		currentPath = String.join("\\", paths);
+			currentPath = String.join("\\", paths);
+		}
 
 		if (currentPath.isEmpty()) {
 			currentPath = "\\";

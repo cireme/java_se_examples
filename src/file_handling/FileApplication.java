@@ -6,6 +6,8 @@ package file_handling;
 import file_handling.manager.ConsoleManager;
 import file_handling.service.FileService;
 
+import java.util.*;
+
 /**
  * @author EmericStophe
  *
@@ -30,5 +32,4 @@ public class FileApplication {
 
 		ConsoleManager.getInstance().closeScanner();
 	}
-
 }
