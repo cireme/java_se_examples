@@ -6,8 +6,6 @@ package file_handling;
 import file_handling.manager.ConsoleManager;
 import file_handling.service.FileService;
 
-import java.util.*;
-
 /**
  * @author EmericStophe
  *
@@ -16,8 +14,9 @@ public class FileApplication {
 
 	/**
 	 * @param args
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		ConsoleManager.getInstance().printToConsole(FileApplication.class.getName() + " - Start", true);
 		ConsoleManager.getInstance().consoleLineBreak();
 
@@ -32,4 +31,5 @@ public class FileApplication {
 
 		ConsoleManager.getInstance().closeScanner();
 	}
+
 }

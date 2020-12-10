@@ -1,7 +1,7 @@
 package file_handling.manager;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -89,6 +89,7 @@ public class FileManager {
 			paths = paths.subList(0, paths.size() - 1);
 
 			currentPath = String.join("\\", paths);
+			currentPath += "\\";
 		}
 
 		if (currentPath.isEmpty()) {
@@ -112,4 +113,71 @@ public class FileManager {
 		return currentPath;
 	}
 
+	public void readTxtFile(int index) {
+		File currentFolder = new File(currentPath);
+
+		File file = currentFolder.listFiles()[index];
+
+		try(FileInputStream fis = new FileInputStream(file)) {
+			int data;
+			String content = "";
+
+			while((data = fis.read()) >= 0) {
+				char character = (char) data;
+				content += character;
+			}
+
+			ConsoleManager.getInstance().printToConsole(content, true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void copyFile(int index) {
+		File currentFolder = new File(currentPath);
+
+		File fileToRead = currentFolder.listFiles()[index];
+		File fileCopy = new File(fileToRead.getParentFile().getAbsolutePath()+"\\copy_"+fileToRead.getName());
+
+		ConsoleManager.getInstance().printToConsole(fileCopy.getAbsolutePath(), true);
+
+		try(FileInputStream fis = new FileInputStream(fileToRead);
+			FileOutputStream fos = new FileOutputStream(fileCopy)) {
+
+			int data = 0;
+
+			while((data = fis.read()) >= 0) {
+				fos.write(data);
+			}
+
+			fos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void copyFileBufferedStream(int index) {
+		File currentFolder = new File(currentPath);
+
+		File fileToRead = currentFolder.listFiles()[index];
+		File fileCopy = new File(fileToRead.getParentFile().getAbsolutePath()+"\\copy_"+fileToRead.getName());
+
+		ConsoleManager.getInstance().printToConsole(fileCopy.getAbsolutePath(), true);
+
+		try(FileInputStream fis = new FileInputStream(fileToRead);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			FileOutputStream fos = new FileOutputStream(fileCopy);
+			BufferedOutputStream bos = new BufferedOutputStream(fos);) {
+
+			int data = 0;
+
+			while((data = bis.read()) >= 0) {
+				bos.write(data);
+			}
+
+			bos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
