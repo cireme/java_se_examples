@@ -145,17 +145,37 @@ public class FileManager {
 			FileOutputStream fos = new FileOutputStream(fileCopy)) {
 
 			int data = 0;
-			String content = "";
 
 			while((data = fis.read()) >= 0) {
-				char character = (char) data;
 				fos.write(data);
-				content += character;
 			}
 
 			fos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-			ConsoleManager.getInstance().printToConsole(content, true);
+	public void copyFileBufferedStream(int index) {
+		File currentFolder = new File(currentPath);
+
+		File fileToRead = currentFolder.listFiles()[index];
+		File fileCopy = new File(fileToRead.getParentFile().getAbsolutePath()+"\\copy_"+fileToRead.getName());
+
+		ConsoleManager.getInstance().printToConsole(fileCopy.getAbsolutePath(), true);
+
+		try(FileInputStream fis = new FileInputStream(fileToRead);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			FileOutputStream fos = new FileOutputStream(fileCopy);
+			BufferedOutputStream bos = new BufferedOutputStream(fos);) {
+
+			int data = 0;
+
+			while((data = bis.read()) >= 0) {
+				bos.write(data);
+			}
+
+			bos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

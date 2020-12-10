@@ -4,6 +4,7 @@ import file_handling.manager.ConsoleManager;
 import file_handling.manager.FileManager;
 
 import java.io.File;
+import java.util.Date;
 
 public class FileService {
 
@@ -65,6 +66,10 @@ public class FileService {
             copyFile();
         }
 
+        if (action.equalsIgnoreCase(UserActions.READ_FILE_BENCHMARK.getValue())) {
+            copyBenchmark();
+        }
+
         if (action.equalsIgnoreCase(UserActions.BACK_FOLDER.getValue())) {
         	back();
         }
@@ -94,6 +99,7 @@ public class FileService {
             ConsoleManager.getInstance().printToConsole(UserActions.BACK_FOLDER.getValue() + " - Move back one folder", true);
             ConsoleManager.getInstance().printToConsole(UserActions.READ_TXT_FILE.getValue() + " - Read a txt file", true);
             ConsoleManager.getInstance().printToConsole(UserActions.COPY_FILE.getValue() + " - Copy a file", true);
+            ConsoleManager.getInstance().printToConsole(UserActions.READ_FILE_BENCHMARK.getValue() + " - Copy benchmark", true);
             ConsoleManager.getInstance().printToConsole(UserActions.EXIT.getValue() + " - Exit", true);
 
             // ask user answer
@@ -266,5 +272,33 @@ public class FileService {
         } while(answer < 0 || answer >= nbFiles);
 
         fileManager.copyFile(answer);
+    }
+
+    private void copyBenchmark() {
+        printActionTitle("Copy file");
+
+        // list files for user to choose
+        int nbFiles = listFiles();
+
+        int answer;
+
+        do {
+            ConsoleManager.getInstance().printToConsole("Which file do you want to read ? ", true);
+            answer = ConsoleManager.getInstance().readUserInputInteger();
+        } while(answer < 0 || answer >= nbFiles);
+
+        Date start = new Date();
+        fileManager.copyFile(answer);
+        Date end = new Date();
+
+        long difference = (end.getTime() - start.getTime());
+        ConsoleManager.getInstance().printToConsole("FIS - copy in "+ difference + "ms", true);
+
+        start = new Date();
+        fileManager.copyFileBufferedStream(answer);
+        end = new Date();
+
+        difference = (end.getTime() - start.getTime());
+        ConsoleManager.getInstance().printToConsole("BIS - copy in "+ difference + "ms", true);
     }
 }
