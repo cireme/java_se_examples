@@ -2,115 +2,74 @@ package file_handling.service;
 
 import file_handling.manager.ConsoleManager;
 import file_handling.manager.FileManager;
+import file_handling.service.action.FileActions;
 
 import java.io.File;
 import java.util.Date;
 
-public class FileService {
+public class FileService extends RunnableServiceAbstractImpl {
 
-    private boolean done;
     private FileManager fileManager;
 
     public FileService() {
-        done = false;
         fileManager = new FileManager();
     }
 
     public void run() {
-        // print the beautiful app title
-        printApplicationTitle();
+        printTitle("File Service");
 
         String answer;
 
         do {
-            // print the menu & get the user's answer back in return
-            answer = printMenu();
+            ConsoleManager.getInstance().printLine();
+            ConsoleManager.getInstance().printToConsole("Current path - " + fileManager.getCurrentPath(), true);
+            answer = printMenu(FileActions.values());
 
             // handle the user action
             handleAction(answer);
-        } while (!answer.equalsIgnoreCase(UserActions.EXIT.getValue())); // loop while until user wants to exit
-
-        done = true;
+        } while (!answer.equalsIgnoreCase(FileActions.EXIT.getValue())); // loop while until user wants to exit
     }
 
-    private void handleAction(String action) {
-        if (action.equalsIgnoreCase(UserActions.LIST_FILES.getValue())) {
+    protected void handleAction(String action) {
+        if (action.equalsIgnoreCase(FileActions.LIST_FILES.getValue())) {
             listFiles();
         }
 
-        if (action.equalsIgnoreCase(UserActions.CREATE_FILE.getValue())) {
+        if (action.equalsIgnoreCase(FileActions.CREATE_FILE.getValue())) {
             createFile();
         }
 
-        if (action.equalsIgnoreCase(UserActions.CREATE_FOLDER.getValue())) {
+        if (action.equalsIgnoreCase(FileActions.CREATE_FOLDER.getValue())) {
             createFolder();
         }
 
-        if (action.equalsIgnoreCase(UserActions.EDIT_FILE.getValue())) {
-        	editFile();
-        }
-
-        if (action.equalsIgnoreCase(UserActions.DELETE_FILE.getValue())) {
+        if (action.equalsIgnoreCase(FileActions.DELETE_FILE.getValue())) {
         	deleteAFile();
         }
 
-        if (action.equalsIgnoreCase(UserActions.GO_IN_FOLDER.getValue())) {
+        if (action.equalsIgnoreCase(FileActions.GO_IN_FOLDER.getValue())) {
             moveInto();
         }
 
-        if (action.equalsIgnoreCase(UserActions.READ_TXT_FILE.getValue())) {
+        if (action.equalsIgnoreCase(FileActions.READ_TXT_FILE.getValue())) {
             readTxtFile();
         }
 
-        if (action.equalsIgnoreCase(UserActions.COPY_FILE.getValue())) {
+        if (action.equalsIgnoreCase(FileActions.COPY_FILE.getValue())) {
             copyFile();
         }
 
-        if (action.equalsIgnoreCase(UserActions.READ_FILE_BENCHMARK.getValue())) {
+        if (action.equalsIgnoreCase(FileActions.READ_FILE_BENCHMARK.getValue())) {
             copyBenchmark();
         }
 
-        if (action.equalsIgnoreCase(UserActions.BACK_FOLDER.getValue())) {
+        if (action.equalsIgnoreCase(FileActions.HANDLE_PRIMITIVES.getValue())) {
+            testPrimitives();
+        }
+
+        if (action.equalsIgnoreCase(FileActions.BACK_FOLDER.getValue())) {
         	back();
         }
-    }
-
-    /**
-     * Print the menu
-     * @return the action answer number
-     */
-    private String printMenu() {
-        boolean rightAnswer = false;
-        String answer = "";
-
-        do {
-            // print the option menu
-            ConsoleManager.getInstance().printLine();
-            ConsoleManager.getInstance().printToConsole("Current path - "+fileManager.getCurrentPath(), true);
-            ConsoleManager.getInstance().printLine();
-            ConsoleManager.getInstance().consoleLineBreak();
-            ConsoleManager.getInstance().printToConsole("What do you want to do ? ", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.LIST_FILES.getValue() + " - List files ", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.CREATE_FILE.getValue()+" - Create a file", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.CREATE_FOLDER.getValue() + " - Create a folder", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.EDIT_FILE.getValue() + " - Edit a file", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.DELETE_FILE.getValue() + " - Delete a file", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.GO_IN_FOLDER.getValue() + " - Go into folder", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.BACK_FOLDER.getValue() + " - Move back one folder", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.READ_TXT_FILE.getValue() + " - Read a txt file", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.COPY_FILE.getValue() + " - Copy a file", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.READ_FILE_BENCHMARK.getValue() + " - Copy benchmark", true);
-            ConsoleManager.getInstance().printToConsole(UserActions.EXIT.getValue() + " - Exit", true);
-
-            // ask user answer
-            answer = ConsoleManager.getInstance().readUserInput();
-
-            if (UserActions.containsAction(answer)) {
-                rightAnswer = true;
-            }
-        } while (!rightAnswer);
-
-        return answer;
     }
 
     private Integer listFiles() {
@@ -214,32 +173,11 @@ public class FileService {
         fileManager.enterFolder(answer);
 	}
 
-	private void editFile() {
-		// TODO Auto-generated method stub
-
-	}
-
-    private void printApplicationTitle() {
-        ConsoleManager.getInstance().consoleLineBreak();
-        ConsoleManager.getInstance().printLine();
-        ConsoleManager.getInstance().printToConsole("File System Manager", true);
-        ConsoleManager.getInstance().printLine();
-        ConsoleManager.getInstance().consoleLineBreak();
-    }
-
     private void printActionTitle(String title) {
         ConsoleManager.getInstance().printLine();
         ConsoleManager.getInstance().printToConsole(title, true);
         ConsoleManager.getInstance().printLine();
         ConsoleManager.getInstance().consoleLineBreak();
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
     }
 
     public void readTxtFile() {
@@ -300,5 +238,22 @@ public class FileService {
 
         difference = (end.getTime() - start.getTime());
         ConsoleManager.getInstance().printToConsole("BIS - copy in "+ difference + "ms", true);
+    }
+
+    private void testPrimitives() {
+        printActionTitle("Copy file");
+
+        // list files for user to choose
+        int nbFiles = listFiles();
+
+        int answer;
+
+        do {
+            ConsoleManager.getInstance().printToConsole("Which file do you want to write & read from ? ", true);
+            answer = ConsoleManager.getInstance().readUserInputInteger();
+        } while(answer < 0 || answer >= nbFiles);
+
+        fileManager.writePrimitives(answer);
+        fileManager.readPrimitives(answer);
     }
 }

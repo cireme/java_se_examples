@@ -180,4 +180,54 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+
+	public void writePrimitives(int index) {
+		File currentFolder = new File(currentPath);
+
+		File file = currentFolder.listFiles()[index];
+
+		ConsoleManager.getInstance().printToConsole(file.getAbsolutePath(), true);
+
+		try(FileOutputStream fos = new FileOutputStream(file);
+			DataOutputStream dos = new DataOutputStream(fos)) {
+
+			char myChar = 'a';
+			double myDouble = 42.42;
+			int myInt = 42;
+			boolean myBoolean = true;
+
+			dos.writeChar(myChar);
+			dos.writeDouble(myDouble);
+			dos.writeInt(myInt);
+			dos.writeBoolean(myBoolean);
+
+			dos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void readPrimitives(int index) {
+		File currentFolder = new File(currentPath);
+
+		File file = currentFolder.listFiles()[index];
+
+		ConsoleManager.getInstance().printToConsole(file.getAbsolutePath(), true);
+
+		try(FileInputStream fis = new FileInputStream(file);
+			DataInputStream dis = new DataInputStream(fis)) {
+
+			char myChar = dis.readChar();
+			double myDouble = dis.readDouble();
+			int myInt = dis.readInt();
+			boolean myBoolean = dis.readBoolean();
+
+			ConsoleManager.getInstance().printToConsole("char - " + myChar, true);
+			ConsoleManager.getInstance().printToConsole("double - " + myDouble, true);
+			ConsoleManager.getInstance().printToConsole("int - " + myInt, true);
+			ConsoleManager.getInstance().printToConsole("boolean - " + myBoolean, true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

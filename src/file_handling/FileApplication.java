@@ -5,6 +5,7 @@ package file_handling;
 
 import file_handling.manager.ConsoleManager;
 import file_handling.service.FileService;
+import file_handling.service.MenuService;
 
 /**
  * @author EmericStophe
@@ -12,24 +13,21 @@ import file_handling.service.FileService;
  */
 public class FileApplication {
 
-	/**
-	 * @param args
-	 * @throws InterruptedException 
-	 */
-	public static void main(String[] args) throws InterruptedException {
-		ConsoleManager.getInstance().printToConsole(FileApplication.class.getName() + " - Start", true);
-		ConsoleManager.getInstance().consoleLineBreak();
+    /**
+     * @param args
+     * @throws InterruptedException
+     */
+    public static void main(String[] args) throws InterruptedException {
+        ConsoleManager.getInstance().printToConsole(FileApplication.class.getName() + " - Start", true);
+        ConsoleManager.getInstance().consoleLineBreak();
 
-		// instantiate application
-		FileService applicationService = new FileService();
+        // launch the menu service
+        new MenuService().run();
 
-		// launch application
-		applicationService.run();
+        ConsoleManager.getInstance().consoleLineBreak();
+        ConsoleManager.getInstance().printToConsole(FileApplication.class.getName() + " - End", true);
 
-		ConsoleManager.getInstance().consoleLineBreak();
-		ConsoleManager.getInstance().printToConsole(FileApplication.class.getName() + " - End", true);
-
-		ConsoleManager.getInstance().closeScanner();
-	}
+        ConsoleManager.getInstance().closeScanner();
+    }
 
 }
