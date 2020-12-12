@@ -12,7 +12,7 @@ public class FileService extends RunnableServiceAbstractImpl {
     private FileManager fileManager;
 
     public FileService() {
-        fileManager = new FileManager();
+        this.fileManager = new FileManager();
     }
 
     public void run() {
@@ -44,7 +44,7 @@ public class FileService extends RunnableServiceAbstractImpl {
         }
 
         if (action.equalsIgnoreCase(FileActions.DELETE_FILE.getValue())) {
-        	deleteAFile();
+            deleteAFile();
         }
 
         if (action.equalsIgnoreCase(FileActions.GO_IN_FOLDER.getValue())) {
@@ -68,7 +68,7 @@ public class FileService extends RunnableServiceAbstractImpl {
         }
 
         if (action.equalsIgnoreCase(FileActions.BACK_FOLDER.getValue())) {
-        	back();
+            back();
         }
     }
 
@@ -83,7 +83,7 @@ public class FileService extends RunnableServiceAbstractImpl {
             counter++;
         }
 
-        if(counter == 0) {
+        if (counter == 0) {
             ConsoleManager.getInstance().printToConsole("There's no file here", true);
         }
 
@@ -95,14 +95,14 @@ public class FileService extends RunnableServiceAbstractImpl {
 
         for (File file : fileManager.listFiles()) {
             // test if its a folder
-            if(!file.isFile()) {
+            if (!file.isFile()) {
                 ConsoleManager.getInstance().printToConsole(counter + " - " + file.getName(), true);
 
                 counter++;
             }
         }
 
-        if(counter == 0) {
+        if (counter == 0) {
             ConsoleManager.getInstance().printToConsole("There's no folder here", true);
         }
 
@@ -148,17 +148,17 @@ public class FileService extends RunnableServiceAbstractImpl {
         do {
             ConsoleManager.getInstance().printToConsole("Which file do you want to delete ? ", true);
             answer = ConsoleManager.getInstance().readUserInputInteger();
-        } while(answer < 0 || answer >= nbFiles);
+        } while (answer < 0 || answer >= nbFiles);
 
         fileManager.deleteFileFromList(answer);
     }
 
     private void back() {
-		fileManager.backOneFolder();
-	}
+        fileManager.backOneFolder();
+    }
 
-	private void moveInto() {
-		printActionTitle("List Folders");
+    private void moveInto() {
+        printActionTitle("List Folders");
 
         // list folders for user to choose
         int nbFolders = listFolders();
@@ -168,10 +168,10 @@ public class FileService extends RunnableServiceAbstractImpl {
         do {
             ConsoleManager.getInstance().printToConsole("Which folder do you want to enter ? ", true);
             answer = ConsoleManager.getInstance().readUserInputInteger();
-        } while(answer < 0 || answer >= nbFolders);
+        } while (answer < 0 || answer >= nbFolders);
 
         fileManager.enterFolder(answer);
-	}
+    }
 
     private void printActionTitle(String title) {
         ConsoleManager.getInstance().printLine();
@@ -191,7 +191,7 @@ public class FileService extends RunnableServiceAbstractImpl {
         do {
             ConsoleManager.getInstance().printToConsole("Which file do you want to read ? ", true);
             answer = ConsoleManager.getInstance().readUserInputInteger();
-        } while(answer < 0 || answer >= nbFiles);
+        } while (answer < 0 || answer >= nbFiles);
 
         fileManager.readTxtFile(answer);
     }
@@ -207,7 +207,7 @@ public class FileService extends RunnableServiceAbstractImpl {
         do {
             ConsoleManager.getInstance().printToConsole("Which file do you want to read ? ", true);
             answer = ConsoleManager.getInstance().readUserInputInteger();
-        } while(answer < 0 || answer >= nbFiles);
+        } while (answer < 0 || answer >= nbFiles);
 
         fileManager.copyFile(answer);
     }
@@ -223,21 +223,21 @@ public class FileService extends RunnableServiceAbstractImpl {
         do {
             ConsoleManager.getInstance().printToConsole("Which file do you want to read ? ", true);
             answer = ConsoleManager.getInstance().readUserInputInteger();
-        } while(answer < 0 || answer >= nbFiles);
+        } while (answer < 0 || answer >= nbFiles);
 
         Date start = new Date();
         fileManager.copyFile(answer);
         Date end = new Date();
 
         long difference = (end.getTime() - start.getTime());
-        ConsoleManager.getInstance().printToConsole("FIS - copy in "+ difference + "ms", true);
+        ConsoleManager.getInstance().printToConsole("FIS - copy in " + difference + "ms", true);
 
         start = new Date();
         fileManager.copyFileBufferedStream(answer);
         end = new Date();
 
         difference = (end.getTime() - start.getTime());
-        ConsoleManager.getInstance().printToConsole("BIS - copy in "+ difference + "ms", true);
+        ConsoleManager.getInstance().printToConsole("BIS - copy in " + difference + "ms", true);
     }
 
     private void testPrimitives() {
@@ -251,7 +251,7 @@ public class FileService extends RunnableServiceAbstractImpl {
         do {
             ConsoleManager.getInstance().printToConsole("Which file do you want to write & read from ? ", true);
             answer = ConsoleManager.getInstance().readUserInputInteger();
-        } while(answer < 0 || answer >= nbFiles);
+        } while (answer < 0 || answer >= nbFiles);
 
         fileManager.writePrimitives(answer);
         fileManager.readPrimitives(answer);

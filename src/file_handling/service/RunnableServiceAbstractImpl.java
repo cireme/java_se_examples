@@ -9,6 +9,7 @@ public abstract class RunnableServiceAbstractImpl implements RunnableService {
 
     /**
      * Print the title
+     *
      * @param title the title to print
      */
     protected void printTitle(String title) {
@@ -32,11 +33,12 @@ public abstract class RunnableServiceAbstractImpl implements RunnableService {
             // print the option menu
             ConsoleManager.getInstance().printLine();
             ConsoleManager.getInstance().consoleLineBreak();
-            ConsoleManager.getInstance().printToConsole("What do you want to do ? ", true);
 
             for (ServiceAction action : actions) {
                 ConsoleManager.getInstance().printToConsole(action.toString(), true);
             }
+
+            ConsoleManager.getInstance().printToConsole("What do you want to do : ", false);
 
             // ask user answer
             answer = ConsoleManager.getInstance().readUserInput();

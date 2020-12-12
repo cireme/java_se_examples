@@ -2,10 +2,11 @@ package file_handling.service.action;
 
 public enum ClubActions implements ServiceAction {
 
-    LIST_CLUBS("1", "List clubs"),
-    LIST_MEMBERS("2", "List club members"),
-    ADD_MEMBER("3", "Create a member"),
-    DELETE_MEMBER("4", "Delete a member"),
+    CREATE_CLUB("1", "Create club"),
+    LIST_CLUBS("2", "List clubs"),
+    LIST_MEMBERS("3", "List club members"),
+    ADD_MEMBER("4", "Create a member"),
+    DELETE_MEMBER("5", "Delete a member"),
     EXIT(ActionConstants.EXIT_ID, ActionConstants.EXIT_ACTION);
 
     private String value;

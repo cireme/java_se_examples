@@ -57,6 +57,24 @@ public class ConsoleManager {
         return answer;
     }
 
+    public Long readUserInputLong() {
+        Boolean answerRight = false;
+        Long answer = -1L;
+
+        do {
+            try {
+                answer = scan.nextLong();
+                answerRight = true;
+            } catch (InputMismatchException e) {
+                ConsoleManager.getInstance().printToConsole("Please try again : ", false);
+            }
+
+            scan.nextLine();
+        } while (!answerRight);
+
+        return answer;
+    }
+
     /**
      * Print to console
      *
