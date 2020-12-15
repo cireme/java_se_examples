@@ -61,9 +61,8 @@ public class ClubService extends RunnableServiceAbstractImpl {
         String name = ConsoleManager.getInstance().readUserInput();
 
         Club club = new Club(id, name);
-        String fileName = name.trim();
 
-        fileManager.createClubFile(fileName);
+        fileManager.createClubFile(club.getName());
         fileManager.writeClub(club);
 
         ConsoleManager.getInstance().printToConsole("Club created successfully", true);
